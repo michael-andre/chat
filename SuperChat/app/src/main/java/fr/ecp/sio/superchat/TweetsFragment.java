@@ -20,20 +20,35 @@ public class TweetsFragment extends ListFragment implements LoaderManager.Loader
 
     private static final int LOADER_TWEETS = 1000;
 
-    private static final String ARG_USER_ID = "userId";
+    private static final String ARG_USER = "user";
 
+    private User mUser;
     private TweetsAdapter mListAdapter;
 
     public static Bundle newArguments(User user) {
         Bundle args = new Bundle();
-        args.putString(ARG_USER_ID, user.getId());
+        args.putParcelable(ARG_USER, user);
         return args;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUser = getArguments().getParcelable(ARG_USER);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListAdapter = new TweetsAdapter();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getActivity() instanceof TweetsActivity) {
+            getActivity().setTitle(mUser.getHandle());
+        }
     }
 
     @Override
@@ -44,8 +59,7 @@ public class TweetsFragment extends ListFragment implements LoaderManager.Loader
 
     @Override
     public Loader<List<Tweet>> onCreateLoader(int id, Bundle args) {
-        String userId = getArguments().getString(ARG_USER_ID);
-        return new TweetsLoader(getActivity(), userId);
+        return new TweetsLoader(getActivity(), mUser.getId());
     }
 
     @Override

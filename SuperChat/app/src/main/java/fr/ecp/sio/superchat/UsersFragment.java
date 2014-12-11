@@ -26,6 +26,7 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
 
     //private ListView mListView;
     private UsersAdapter mListAdapter;
+    private boolean mIsMasterDetailsMode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,9 +47,13 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mIsMasterDetailsMode = getActivity().findViewById(R.id.tweets_content) != null;
         //mListView = (ListView) view.findViewById(android.R.id.list);
         mListAdapter = new UsersAdapter();
         setListAdapter(mListAdapter);
+        //if (mIsMasterDetailsMode) {
+            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        //}
     }
 
     @Override
@@ -73,7 +78,7 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         User user = mListAdapter.getItem(position);
-        if (getActivity().findViewById(R.id.tweets_content) == null) {
+        if (mIsMasterDetailsMode) {
             Intent intent = new Intent(getActivity(), TweetsActivity.class);
             intent.putExtras(TweetsFragment.newArguments(user));
             startActivity(intent);
