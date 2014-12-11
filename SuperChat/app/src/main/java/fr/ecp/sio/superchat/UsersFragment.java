@@ -3,6 +3,7 @@ package fr.ecp.sio.superchat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -72,9 +73,17 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         User user = mListAdapter.getItem(position);
-        String userId = user.getId();
-        Intent intent = new Intent(getActivity(), TweetsActivity.class);
-        intent.putExtra(TweetsActivity.EXTRA_USER_ID, userId);
-        startActivity(intent);
+        if (getActivity().findViewById(R.id.tweets_content) == null) {
+            Intent intent = new Intent(getActivity(), TweetsActivity.class);
+            intent.putExtras(TweetsFragment.newArguments(user));
+            startActivity(intent);
+        } else {
+            Fragment tweetsFragment = new TweetsFragment();
+            tweetsFragment.setArguments(TweetsFragment.newArguments(user));
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.tweets_content, tweetsFragment)
+                    .commit();
+        }
     }
 }
