@@ -34,12 +34,7 @@ public class TweetsLoader extends AsyncTaskLoader<List<Tweet>> {
             Log.i(TweetsLoader.class.getName(), "Loading tweets");
             InputStream stream = new URL("http://www.wapplix.com/ecp/" + mUserId + ".json").openStream();
             String response = IOUtils.toString(stream);
-            Log.i(TweetsLoader.class.getName(), "Response: " + response);
-            Tweet[] tweets = new Gson().fromJson(response, Tweet[].class);
-            Log.i(TweetsLoader.class.getName(), "Array: " + tweets.toString());
-            List<Tweet> list = Arrays.asList(tweets);
-            Log.i(TweetsLoader.class.getName(), "List: " + list.toString());
-            return list;
+            return Arrays.asList(new Gson().fromJson(response, Tweet[].class));
         } catch (Exception e) {
             Log.e(TweetsLoader.class.getName(), "Failed to download tweets", e);
             return null;

@@ -71,7 +71,6 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
         User user = mListAdapter.getItem(position);
         String userId = user.getId();
         Intent intent = new Intent(getActivity(), TweetsActivity.class);
