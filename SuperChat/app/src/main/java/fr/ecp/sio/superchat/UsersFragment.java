@@ -1,5 +1,6 @@
 package fr.ecp.sio.superchat;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,13 +48,26 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mIsMasterDetailsMode = getActivity().findViewById(R.id.tweets_content) != null;
         //mListView = (ListView) view.findViewById(android.R.id.list);
         mListAdapter = new UsersAdapter();
         setListAdapter(mListAdapter);
         //if (mIsMasterDetailsMode) {
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         //}
+
+        view.findViewById(R.id.post).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                post();
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mIsMasterDetailsMode = getActivity().findViewById(R.id.tweets_content) != null;
     }
 
     @Override
@@ -79,16 +93,24 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
     public void onListItemClick(ListView l, View v, int position, long id) {
         User user = mListAdapter.getItem(position);
         if (mIsMasterDetailsMode) {
-            Intent intent = new Intent(getActivity(), TweetsActivity.class);
-            intent.putExtras(TweetsFragment.newArguments(user));
-            startActivity(intent);
-        } else {
             Fragment tweetsFragment = new TweetsFragment();
             tweetsFragment.setArguments(TweetsFragment.newArguments(user));
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.tweets_content, tweetsFragment)
                     .commit();
+        } else {
+            Intent intent = new Intent(getActivity(), TweetsActivity.class);
+            intent.putExtras(TweetsFragment.newArguments(user));
+            startActivity(intent);
         }
     }
+
+    private void post() {
+        if (AccountManager.isConnected(getActivity())) {
+        } else {
+            new LoginFragment().show(getFragmentManager(), "login_dialog");
+        }
+    }
+
 }
