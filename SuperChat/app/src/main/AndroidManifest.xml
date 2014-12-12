@@ -21,6 +21,11 @@
 
         <activity android:name=".TweetsActivity" />
 
+        <activity android:name=".PostActivity"
+                android:theme="@style/AppTheme.DialogWhenLarge" />
+
+        <activity android:name=".SettingsActivity" />
+
     </application>
 
 </manifest>

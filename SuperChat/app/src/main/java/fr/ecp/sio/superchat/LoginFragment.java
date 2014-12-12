@@ -1,5 +1,6 @@
 package fr.ecp.sio.superchat;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -7,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +54,7 @@ public class LoginFragment extends DialogFragment implements DialogInterface.OnS
     }
 
     private void login() {
-        String handle = mHandleText.getText().toString();
+        final String handle = mHandleText.getText().toString();
         String password = mPasswordText.getText().toString();
 
         if (handle.isEmpty()) {
@@ -84,7 +86,11 @@ public class LoginFragment extends DialogFragment implements DialogInterface.OnS
             @Override
             protected void onPostExecute(String token) {
                 if (token != null) {
-                    AccountManager.saveUserToken(getActivity(), token);
+                    Fragment target = getTargetFragment();
+                    if (target != null) {
+                        target.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, null);
+                    }
+                    AccountManager.login(getActivity(), token, handle);
                     dismiss();
                     Toast.makeText(getActivity(), R.string.login_success, Toast.LENGTH_SHORT).show();
                 } else {

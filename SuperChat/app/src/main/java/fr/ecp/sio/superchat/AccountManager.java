@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 public class AccountManager {
 
     private static final String PREF_API_TOKEN = "apiToken";
+    private static final String PREF_API_HANDLE = "apiHandle";
 
     public static boolean isConnected(Context context) {
         return getUserToken(context) != null;
@@ -20,17 +21,24 @@ public class AccountManager {
         return pref.getString(PREF_API_TOKEN, null);
     }
 
-    public static void saveUserToken(Context context, String token) {
+    public static String getUserHandle(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getString(PREF_API_HANDLE, null);
+    }
+
+    public static void login(Context context, String token, String handle) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         pref.edit()
                 .putString(PREF_API_TOKEN, token)
+                .putString(PREF_API_HANDLE, handle)
                 .apply();
     }
 
-    public static void clearUserToken(Context context) {
+    public static void logout(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         pref.edit()
                 .remove(PREF_API_TOKEN)
+                .remove(PREF_API_HANDLE)
                 .apply();
     }
 

@@ -45,4 +45,10 @@ public class ApiClient {
         return Arrays.asList(new Gson().fromJson(response, Tweet[].class));
     }
 
+    public void postTweet(String handle, String content) throws IOException {
+        String url = Uri.parse(API_BASE + handle + "/tweets/post").buildUpon()
+                .appendQueryParameter("content", content)
+                .build().toString();
+        new URL(url).openStream();
+    }
 }

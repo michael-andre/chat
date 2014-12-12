@@ -9,6 +9,8 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -25,6 +27,7 @@ import fr.ecp.sio.superchat.model.User;
 public class UsersFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<User>> {
 
     private static final int LOADER_USERS = 1000;
+    private static final int REQUEST_LOGIN_FOR_POST = 1;
 
     private UsersAdapter mListAdapter;
     private boolean mIsMasterDetailsMode;
@@ -95,8 +98,19 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
 
     private void post() {
         if (AccountManager.isConnected(getActivity())) {
+            startActivity(new Intent(getActivity(), PostActivity.class));
         } else {
-            new LoginFragment().show(getFragmentManager(), "login_dialog");
+            LoginFragment fragment = new LoginFragment();
+            fragment.setTargetFragment(this, REQUEST_LOGIN_FOR_POST);
+            fragment.show(getFragmentManager(), "login_dialog");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_LOGIN_FOR_POST && resultCode == PostActivity.RESULT_OK) {
+            post();
         }
     }
 

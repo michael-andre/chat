@@ -13,5 +13,10 @@
     <string name="required">Requis</string>
     <string name="login_success">Bienvenue !</string>
     <string name="login_error">Erreur de connexion</string>
+    <string name="message">Message</string>
+    <string name="post_success">Votre message a été envoyé.</string>
+    <string name="post_error">Un erreur s\'est produite.</string>
+    <string name="logout">Déconnexion</string>
+    <string name="logout_confirm">Voulez-vous vraiment vous déconnecter ?</string>
 
 </resources>

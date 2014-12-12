@@ -41,6 +41,7 @@ public class TweetsFragment extends ListFragment implements LoaderManager.Loader
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListAdapter = new TweetsAdapter();
+        getListView().setDividerHeight(0);
     }
 
     @Override

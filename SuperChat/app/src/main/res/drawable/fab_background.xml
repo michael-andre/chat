@@ -3,13 +3,13 @@
     <item android:state_pressed="true">
         <shape android:shape="oval">
             <size android:height="56dp" android:width="56dp" />
-            <solid android:color="#1050a0" />
+            <solid android:color="@color/super_chat_dark" />
         </shape>
     </item>
     <item>
         <shape android:shape="oval">
             <size android:height="56dp" android:width="56dp" />
-            <solid android:color="#3366ff" />
+            <solid android:color="@color/super_chat" />
         </shape>
     </item>
 </selector>
