@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.ecp.sio.superchat.ApiClient;
 import fr.ecp.sio.superchat.model.User;
 
 /**
@@ -30,9 +31,7 @@ public class UsersLoader extends AsyncTaskLoader<List<User>> {
     @Override
     public List<User> loadInBackground() {
         try {
-            InputStream stream = new URL("http://www.wapplix.com/ecp/users.json").openStream();
-            String response = IOUtils.toString(stream);
-            return Arrays.asList(new Gson().fromJson(response, User[].class));
+            return new ApiClient().getUsers();
         } catch (IOException e) {
             Log.e(UsersLoader.class.getName(), "Failed to download users", e);
             return null;

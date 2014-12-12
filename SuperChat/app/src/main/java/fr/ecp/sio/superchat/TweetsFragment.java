@@ -59,7 +59,7 @@ public class TweetsFragment extends ListFragment implements LoaderManager.Loader
 
     @Override
     public Loader<List<Tweet>> onCreateLoader(int id, Bundle args) {
-        return new TweetsLoader(getActivity(), mUser.getId());
+        return new TweetsLoader(getActivity(), mUser.getHandle());
     }
 
     @Override

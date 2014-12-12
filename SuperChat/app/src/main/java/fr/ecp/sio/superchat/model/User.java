@@ -8,17 +8,17 @@ import android.os.Parcelable;
  */
 public class User implements Parcelable {
 
-    private String id;
+    private String _id;
     private String handle;
     private String status;
     private String profilePicture;
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getHandle() {
@@ -50,7 +50,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeString(_id);
         dest.writeString(handle);
         dest.writeString(status);
         dest.writeString(profilePicture);
@@ -61,7 +61,7 @@ public class User implements Parcelable {
         @Override
         public User createFromParcel(Parcel source) {
             User user = new User();
-            user.id = source.readString();
+            user._id = source.readString();
             user.handle = source.readString();
             user.status = source.readString();
             user.profilePicture = source.readString();

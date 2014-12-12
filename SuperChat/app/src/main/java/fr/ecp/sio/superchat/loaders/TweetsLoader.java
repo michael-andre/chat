@@ -4,15 +4,9 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
-import org.apache.commons.io.IOUtils;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 
+import fr.ecp.sio.superchat.ApiClient;
 import fr.ecp.sio.superchat.model.Tweet;
 
 /**
@@ -20,21 +14,18 @@ import fr.ecp.sio.superchat.model.Tweet;
  */
 public class TweetsLoader extends AsyncTaskLoader<List<Tweet>> {
 
-    private String mUserId;
+    private String mHandle;
     private List<Tweet> mResult;
 
-    public TweetsLoader(Context context, String userId) {
+    public TweetsLoader(Context context, String handle) {
         super(context);
-        mUserId = userId;
+        mHandle = handle;
     }
 
     @Override
     public List<Tweet> loadInBackground() {
         try {
-            Log.i(TweetsLoader.class.getName(), "Loading tweets");
-            InputStream stream = new URL("http://www.wapplix.com/ecp/" + mUserId + ".json").openStream();
-            String response = IOUtils.toString(stream);
-            return Arrays.asList(new Gson().fromJson(response, Tweet[].class));
+            return new ApiClient().getUserTweets(mHandle);
         } catch (Exception e) {
             Log.e(TweetsLoader.class.getName(), "Failed to download tweets", e);
             return null;

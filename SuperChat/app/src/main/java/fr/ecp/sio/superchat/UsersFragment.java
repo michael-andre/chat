@@ -11,6 +11,7 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -25,7 +26,6 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
 
     private static final int LOADER_USERS = 1000;
 
-    //private ListView mListView;
     private UsersAdapter mListAdapter;
     private boolean mIsMasterDetailsMode;
 
@@ -34,27 +34,11 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
         return inflater.inflate(R.layout.users_fragment, container, false);
     }
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ListView listView = new ListView(getActivity());
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-        );
-        listView.setLayoutParams(params);
-        return listView;
-    }*/
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //mListView = (ListView) view.findViewById(android.R.id.list);
         mListAdapter = new UsersAdapter();
         setListAdapter(mListAdapter);
-        //if (mIsMasterDetailsMode) {
-            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        //}
-
         view.findViewById(R.id.post).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +52,9 @@ public class UsersFragment extends ListFragment implements LoaderManager.LoaderC
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mIsMasterDetailsMode = getActivity().findViewById(R.id.tweets_content) != null;
+        if (mIsMasterDetailsMode) {
+            getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        }
     }
 
     @Override

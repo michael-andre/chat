@@ -10,5 +10,8 @@
     <string name="login">Connexion</string>
     <string name="handle">Login</string>
     <string name="password">Mot de passe</string>
+    <string name="required">Requis</string>
+    <string name="login_success">Bienvenue !</string>
+    <string name="login_error">Erreur de connexion</string>
 
 </resources>
